@@ -1,0 +1,122 @@
+<template>
+  <section class="cart__total total">
+    <h3 class="visually-hidden">Итог</h3>
+    <div class="total__wrapper">
+      <ul class="total__table">
+        <li class="total__row total__row_header">
+          <span>Итого</span>
+          <span>{{ total + delivery - discount }} &#8381;</span>
+        </li>
+        <li class="total__row total__row_gray">
+          <span>Товары, {{ totalCount }} шт.</span>
+          <span>{{ total }} &#8381;</span>
+        </li>
+        <li class="total__row total__row_gray">
+          <span>Скидка</span>
+          <span>{{ discount }} &#8381;</span>
+        </li>
+        <li class="total__row total__row_gray total__row_gap">
+          <span>Доставка</span>
+          <span>{{ delivery }} &#8381;</span>
+        </li>
+        <li class="total__row">
+          <span>Дата</span>
+          <span>{{ dateStart }} - {{ dateEnd }}</span>
+        </li>
+        <li class="total__row">
+          <span>Оплата</span>
+          <span>Картой</span>
+        </li>
+      </ul>
+      <div class="total__order">
+        <button :disabled="delivery === 0" class="total__submit">Оформить заказ</button>
+        <label class="total__agree custom-label">
+          <input type="checkbox" name="agree" required class="total__agree-checkbox custom-checkbox" />
+          <span>
+            Согласен с <a href="#" class="total__agree-link">условиями</a> правил пользования торговой площадкой
+            и&nbsp;правилами возврата
+          </span>
+        </label>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+  import { ref, watch, onMounted } from 'vue';
+
+  export default {
+    props: {
+      total: Number,
+      totalCount: Number,
+      city: String,
+    },
+    setup(props) {
+      const delivery = ref(0);
+      const percent = ref(0);
+      const discount = ref(0);
+      const deliveryDay = ref(3);
+      const dateStart = ref('01');
+      const dateEnd = ref('03 июля');
+
+      const setDeliveryDate = () => {
+        const date = new Date();
+        dateStart.value = new Intl.DateTimeFormat('ru', { day: '2-digit', month: 'long' }).format(date);
+        const periodDay = date.setDate(date.getDate() + deliveryDay.value);
+        dateEnd.value = new Intl.DateTimeFormat('ru', { day: '2-digit', month: 'long' }).format(periodDay);
+      };
+
+      watch(props, () => {
+        if (props.total === 0) {
+          delivery.value = 0;
+        }
+
+        if (props.totalCount >= 10) {
+          percent.value = 5;
+          discount.value = Math.floor((props.total / 100) * percent.value);
+        } else if (props.totalCount >= 20) {
+          percent.value = 10;
+          discount.value = Math.floor((props.total / 100) * percent.value);
+        } else {
+          percent.value = 0;
+          discount.value = 0;
+        }
+
+        switch (true) {
+          case props.city === 'Kazan':
+            deliveryDay.value = 4;
+            break;
+          case props.city === 'Yekaterinburg':
+            deliveryDay.value = 6;
+            break;
+          case props.city === 'Chelyabinsk':
+            deliveryDay.value = 7;
+            break;
+          case props.city === 'Kaliningrad':
+            deliveryDay.value = 10;
+            break;
+          case props.city === 'Novosibirsk':
+            deliveryDay.value = 12;
+            break;
+          case props.city === 'Volgograd':
+            deliveryDay.value = 8;
+            break;
+          default:
+            deliveryDay.value = 3;
+            break;
+        }
+
+        setDeliveryDate();
+      });
+
+      onMounted(() => {
+        if (props.total) {
+          setDeliveryDate();
+          delivery.value = 500;
+        }
+      });
+
+      return { delivery, discount, dateStart, dateEnd };
+    },
+  };
+</script>
