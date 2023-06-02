@@ -29,9 +29,9 @@
         </li>
       </ul>
       <div class="total__order">
-        <button :disabled="delivery === 0" class="total__submit">Оформить заказ</button>
+        <button :disabled="!agree" class="total__submit" @click="sendCart">Оформить заказ</button>
         <label class="total__agree custom-label">
-          <input type="checkbox" name="agree" required class="total__agree-checkbox custom-checkbox" />
+          <input type="checkbox" v-model="agree" required class="total__agree-checkbox custom-checkbox" />
           <span>
             Согласен с <a href="#" class="total__agree-link">условиями</a> правил пользования торговой площадкой
             и&nbsp;правилами возврата
@@ -40,10 +40,13 @@
       </div>
     </div>
   </section>
+  <SendModal v-model:sended="sended" />
 </template>
 
 <script>
-  import { ref, watch, onMounted } from 'vue';
+  import { ref, watch, onMounted, computed } from 'vue';
+  import { useStore } from 'vuex';
+  import SendModal from './SendModal.vue';
 
   export default {
     props: {
@@ -58,6 +61,25 @@
       const deliveryDay = ref(3);
       const dateStart = ref('01');
       const dateEnd = ref('03 июля');
+
+      const store = useStore();
+
+      const agree = computed({
+        get: () => store.state.cart.agreeSend,
+        set: (value) => store.commit('cart/setAgree', value),
+      });
+
+      const sended = computed({
+        get: () => store.state.cart.sended,
+        set: (value) => store.commit('cart/setSended', value),
+      });
+
+      const sendCart = () => {
+        const payload = { delivery: delivery.value, discount: discount.value };
+        if (agree.value && delivery.value) {
+          store.dispatch('cart/sendCart', payload);
+        }
+      };
 
       const setDeliveryDate = () => {
         const date = new Date();
@@ -114,9 +136,11 @@
           setDeliveryDate();
           delivery.value = 500;
         }
+        store.commit('cart/setAgree', false);
       });
 
-      return { delivery, discount, dateStart, dateEnd };
+      return { delivery, discount, dateStart, dateEnd, agree, sendCart, sended };
     },
+    components: { SendModal },
   };
 </script>

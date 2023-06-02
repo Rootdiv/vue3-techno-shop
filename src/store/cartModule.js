@@ -6,6 +6,8 @@ const state = {
   cartProducts: [],
   cartIdList: [],
   status: 'loading',
+  agreeSend: false,
+  sended: '',
 };
 
 const getters = {
@@ -58,6 +60,20 @@ const mutations = {
   updateCartProducts(state, newCartProducts) {
     state.cartProducts = newCartProducts;
   },
+
+  setAgree(state, value) {
+    state.agreeSend = value;
+  },
+
+  setSended(state, status) {
+    state.sended = status;
+  },
+
+  clearCart(state) {
+    state.productsCountList = [];
+    state.cartProducts = [];
+    state.cartIdList = [];
+  },
 };
 
 const actions = {
@@ -90,6 +106,34 @@ const actions = {
     const newCartProducts = state.cartProducts.filter(item => item.id !== id);
     commit('updateCartProducts', newCartProducts);
     commit('removeCartItem', id);
+  },
+
+  sendCart({ state, getters, commit, rootState }, payload) {
+    const sendGoods = {};
+    delete rootState.address.save;
+
+    if (Object.values(rootState.address).includes('')) return;
+
+    sendGoods['orderGoods'] = state.cartProducts.map(item => ({
+      goods: item,
+      count: getters['cartItemCount'](item.id).count,
+    }));
+    sendGoods['delivery'] = payload.delivery;
+    sendGoods['discount'] = payload.discount;
+    sendGoods['totalPrice'] = getters.cartTotalPrice;
+    sendGoods['address'] = rootState.address;
+
+    axios
+      .post(`${API_URI}/api/order`, sendGoods)
+      .then(() => {
+        commit('setSended', 'confirm');
+        commit('setAgree', false);
+        commit('clearCart');
+      })
+      .catch(err => {
+        console.error('Произошла ошибка:', err.message);
+        commit('setSended', 'error');
+      });
   },
 };
 
