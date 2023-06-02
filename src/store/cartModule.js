@@ -23,13 +23,13 @@ const mutations = {
     state.status = load;
   },
 
-  pushToCart(state, data) {
-    state.productsCountList.push({ ...data });
-    state.cartIdList.push(data.id);
+  pushToCart(state, payload) {
+    state.productsCountList.push({ ...payload });
+    state.cartIdList.push(payload.id);
   },
 
-  setCart(state, data) {
-    state.productsCountList = [{ ...data }];
+  setCart(state, payload) {
+    state.productsCountList = [{ ...payload }];
   },
 
   setCartProducts(state, products) {
@@ -55,7 +55,7 @@ const mutations = {
     state.cartIdList = newCartIdList;
   },
 
-  removeCartProducts(state, newCartProducts) {
+  updateCartProducts(state, newCartProducts) {
     state.cartProducts = newCartProducts;
   },
 };
@@ -75,20 +75,20 @@ const actions = {
     }
   },
 
-  addToCart({ state, commit }, data) {
-    const findItem = state.productsCountList.find(item => item.id === data.id);
-    if (findItem && data.count === 1) {
+  addToCart({ state, commit }, payload) {
+    const findItem = state.productsCountList.find(item => item.id === payload.id);
+    if (findItem && payload.count === 1) {
       commit('removeCartItem', findItem.id);
-    } else if (findItem && data.count > 1) {
-      commit('setCart', data);
+    } else if (findItem && payload.count > 1) {
+      commit('setCart', payload);
     } else {
-      commit('pushToCart', data);
+      commit('pushToCart', payload);
     }
   },
 
   removeItem({ commit }, id) {
     const newCartProducts = state.cartProducts.filter(item => item.id !== id);
-    commit('removeCartProducts', newCartProducts);
+    commit('updateCartProducts', newCartProducts);
     commit('removeCartItem', id);
   },
 };
