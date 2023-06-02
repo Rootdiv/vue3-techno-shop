@@ -22,7 +22,8 @@
 </template>
 
 <script>
-  import { ref, onMounted } from 'vue';
+  import { onMounted, computed } from 'vue';
+  import { useStore } from 'vuex';
   export default {
     name: 'Address',
     props: {
@@ -43,12 +44,32 @@
         { value: 'Volgograd', name: 'Волгоград' },
       ];
 
-      const city = ref('');
-      const street = ref('');
-      const flat = ref('');
-      const fullName = ref('');
-      const postcode = ref('');
-      const save = ref(false);
+      const store = useStore();
+
+      const city = computed({
+        get: () => store.state.address.city,
+        set: (value) => store.commit('address/setCity', value),
+      });
+      const street = computed({
+        get: () => store.state.address.street,
+        set: (value) => store.commit('address/setStreet', value),
+      });
+      const flat = computed({
+        get: () => store.state.address.flat,
+        set: (value) => store.commit('address/setFlat', value),
+      });
+      const fullName = computed({
+        get: () => store.state.address.fullName,
+        set: (value) => store.commit('address/setFullName', value),
+      });
+      const postcode = computed({
+        get: () => store.state.address.postcode,
+        set: (value) => store.commit('address/setPostcode', value),
+      });
+      const save = computed({
+        get: () => store.state.address.save,
+        set: (value) => store.commit('address/setSave', value),
+      });
 
       const changeOption = () => {
         emit('city-value', city.value);
@@ -58,12 +79,12 @@
         const storage = localStorage.getItem('address-ts');
         const cartAddress = storage ? JSON.parse(storage) : null;
         if (cartAddress) {
-          city.value = cartAddress.city;
-          street.value = cartAddress.street;
-          flat.value = cartAddress.flat;
-          fullName.value = cartAddress.fullName;
-          postcode.value = cartAddress.postcode;
-          save.value = true;
+          store.commit('address/setCity', cartAddress.city);
+          store.commit('address/setStreet', cartAddress.street);
+          store.commit('address/setFlat', cartAddress.flat);
+          store.commit('address/setFullName', cartAddress.fullName);
+          store.commit('address/setPostcode', cartAddress.postcode);
+          store.commit('address/setSave', true);
           emit('city-value', cartAddress.city);
         }
       });
@@ -77,13 +98,7 @@
           postcode.value !== '' &&
           save.value
         ) {
-          const dataForm = {};
-          dataForm.city = city.value;
-          dataForm.street = street.value;
-          dataForm.flat = flat.value;
-          dataForm.fullName = fullName.value;
-          dataForm.postcode = postcode.value;
-          localStorage.setItem('address-ts', JSON.stringify(dataForm));
+          localStorage.setItem('address-ts', JSON.stringify(store.state.address));
         } else {
           localStorage.removeItem('address-ts');
         }
