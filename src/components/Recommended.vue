@@ -2,7 +2,7 @@
   <section class="recommended">
     <div class="container">
       <h2 class="recommended__title">Возможно вам также понравится</h2>
-      <div class="recommended__carousel" v-show="status === 'success'">
+      <div v-show="status === 'success'" class="recommended__carousel">
         <swiper-container
           :space-between="10"
           :breakpoints="breakpoints"
@@ -27,11 +27,11 @@
 
   register();
   export default {
-    name: 'Recommended',
+    name: 'RecommendedComponent',
     components: { GoodsItem },
     props: {
-      id: String,
-      category: String,
+      id: { type: String, required: true },
+      category: { type: String, required: true },
     },
     setup(props) {
       const store = useStore();

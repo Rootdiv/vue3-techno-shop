@@ -36,7 +36,7 @@
         <div class="card__info">
           <h2 class="card__title">{{ cardItem.title }}</h2>
           <p class="card__vendor-code">Артикул: {{ cardItem.id }}</p>
-          <Control :classType="'card'" :id="cardItem.id" :price="cardItem.price" />
+          <Control :id="cardItem.id" :class-type="'card'" :price="cardItem.price" />
           <ul class="card__params-list">
             <li v-for="(param, key, index) in cardItem.characteristic" :key="index" class="card__params-item">
               <span>{{ key }}:</span><span>{{ param }}</span>
@@ -57,7 +57,6 @@
 
 <script>
   import Preloader from '@/components/Preloader.vue';
-  import ButtonCart from '@/components/ButtonCart.vue';
   import Recommended from '@/components/Recommended.vue';
   import Control from '@/components/Control.vue';
 
@@ -69,13 +68,13 @@
 
   register();
   export default {
-    name: 'Catalog',
+    name: 'CardPage',
     components: {
       Preloader,
-      ButtonCart,
       Recommended,
       Control,
     },
+    emits: ['vnode-unmounted'],
     setup() {
       const route = useRoute();
       const store = useStore();
@@ -118,6 +117,5 @@
         breakpoints,
       };
     },
-    emits: ['vnode-unmounted'],
   };
 </script>

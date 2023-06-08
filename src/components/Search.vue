@@ -1,6 +1,6 @@
 <template>
   <form class="header__search search" @submit.prevent="searching">
-    <input type="search" class="search__input" v-model.trim="search" />
+    <input v-model.trim="search" type="search" class="search__input" />
     <button class="search__button" aria-label="Найти товар">
       <svg width="24" height="24">
         <use href="@/assets/img/sprite.svg#search" />
@@ -15,7 +15,7 @@
   import { useStore } from 'vuex';
 
   export default {
-    name: 'Search',
+    name: 'SearchComponent',
     setup() {
       const router = useRouter();
       const route = useRoute();

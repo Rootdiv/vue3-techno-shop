@@ -11,7 +11,7 @@
     </RouterLink>
     <div class="goods-item__buy">
       <p class="goods-item__price">{{ formatPrice(goods.price) }}</p>
-      <ButtonCart class="goods-item__to-card" :id="goods.id" :price="goods.price" />
+      <ButtonCart :id="goods.id" class="goods-item__to-card" :price="goods.price" />
     </div>
   </article>
 </template>
@@ -20,5 +20,7 @@
   import { API_URI, formatPrice } from '@/const';
   import ButtonCart from './ButtonCart.vue';
   import { RouterLink } from 'vue-router';
-  const { goods } = defineProps({ goods: Object });
+  import { toRefs } from 'vue';
+  const props = defineProps({ goods: { type: Object, required: true } });
+  const { goods } = toRefs(props);
 </script>

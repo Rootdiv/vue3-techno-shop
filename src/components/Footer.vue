@@ -8,8 +8,10 @@
       <div class="footer__column footer__catalog" @click="toggleShowCatalog">
         <h3 :class="['footer__column-title', { 'footer__column-title_open': isShowCatalog }]">Каталог</h3>
         <ul :class="['footer__list', 'footer__list_double', { footer__list_show: isShowCatalog }]">
-          <li class="footer__item" v-for="(value, category, index) in categories" :key="index">
-            <RouterLink class="footer__link" :to="{ name: 'catalog', query: { category } }" v-text="value" />
+          <li v-for="(value, category, index) in categories" :key="index" class="footer__item">
+            <RouterLink class="footer__link" :to="{ name: 'catalog', query: { category } }">
+              {{ value }}
+            </RouterLink>
           </li>
         </ul>
       </div>
@@ -33,10 +35,12 @@
       <div class="footer__column footer__contacts">
         <h3 class="footer__column-title">Контакты</h3>
         <ul class="footer__list footer__list_contacts">
-          <li class="footer__item footer__item_contact">Тел:
+          <li class="footer__item footer__item_contact">
+            Тел:
             <a href="tel:+79149239223" class="footer__link">8 914 923 92 - 23</a>
           </li>
-          <li class="footer__item footer__item_contact">Email:
+          <li class="footer__item footer__item_contact">
+            Email:
             <a href="mailto:TechnoSHOP@gmail.com" class="footer__link">TechnoSHOP@gmail.com</a>
           </li>
         </ul>
@@ -79,8 +83,8 @@
   import { RouterLink } from 'vue-router';
 
   export default {
-    components: { RouterLink },
     name: 'FooterComponent',
+    components: { RouterLink },
     setup() {
       const isShowCatalog = ref(false);
       const isShowCustomer = ref(false);

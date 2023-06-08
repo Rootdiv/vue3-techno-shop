@@ -5,37 +5,38 @@
       <section class="cart-goods">
         <h3 class="cart__title cart-goods__title">Корзина</h3>
         <ul class="cart-goods__list">
-          <li class="cart-goods__null" v-if="!cartProducts.length">В корзине нет товаров</li>
-          <li v-else v-for="cartProduct in cartProducts" :key="cartProduct.id" class="cart-goods__item item">
+          <li v-if="!cartProducts.length" class="cart-goods__null">В корзине нет товаров</li>
+          <li v-for="cartProduct in cartProducts" v-else :key="cartProduct.id" class="cart-goods__item item">
             <img class="item__img" :src="`${API_URI}/${cartProduct.images.present}`" :alt="cartProduct.title" />
             <div class="item__detail">
               <h4 class="item__title">{{ cartProduct.title }}</h4>
               <p class="item__vendor-code">Артикул: {{ cartProduct.id }}</p>
             </div>
-            <Control :classType="'item'" :id="cartProduct.id" :price="cartProduct.price" />
+            <Control :id="cartProduct.id" :class-type="'item'" :price="cartProduct.price" />
           </li>
         </ul>
       </section>
-      <CartTotal :total="cartTotalPrice" :totalCount="cartTotalCount" :city="selectedCity" />
-      <Address :count="cartTotalCount" @city-value="setSelectedCity" />
+      <CartTotal :total="cartTotalPrice" :total-count="cartTotalCount" :city="selectedCity" />
+      <AddressComponent :count="cartTotalCount" @city-value="setSelectedCity" />
     </div>
   </section>
 </template>
 
 <script>
   import CartTotal from '@/components/CartTotal.vue';
-  import Address from '@/components/Address.vue';
+  import AddressComponent from '@/components/Address.vue';
   import { useStore } from 'vuex';
   import { computed, onMounted, ref } from 'vue';
   import { API_URI } from '@/const';
   import Control from '@/components/Control.vue';
   export default {
-    name: 'Cart',
+    name: 'CartPage',
     components: {
       CartTotal,
-      Address,
+      AddressComponent,
       Control,
     },
+    emits: ['vnode-unmounted'],
     setup() {
       const store = useStore();
       const selectedCity = ref('');
@@ -60,6 +61,5 @@
         setSelectedCity,
       };
     },
-    emits: ['vnode-unmounted'],
   };
 </script>

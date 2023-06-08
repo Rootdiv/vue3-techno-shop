@@ -31,7 +31,7 @@
       <div class="total__order">
         <button :disabled="!agree" class="total__submit" @click="sendCart">Оформить заказ</button>
         <label class="total__agree custom-label">
-          <input type="checkbox" v-model="agree" required class="total__agree-checkbox custom-checkbox" />
+          <input v-model="agree" type="checkbox" required class="total__agree-checkbox custom-checkbox" />
           <span>
             Согласен с <a href="#" class="total__agree-link">условиями</a> правил пользования торговой площадкой
             и&nbsp;правилами возврата
@@ -49,10 +49,11 @@
   import SendModal from './SendModal.vue';
 
   export default {
+    components: { SendModal },
     props: {
-      total: Number,
-      totalCount: Number,
-      city: String,
+      total: { type: Number, required: true },
+      totalCount: { type: Number, required: true },
+      city: { type: String, required: true },
     },
     setup(props) {
       const delivery = ref(0);
@@ -141,6 +142,5 @@
 
       return { delivery, discount, dateStart, dateEnd, agree, sendCart, sended };
     },
-    components: { SendModal },
   };
 </script>

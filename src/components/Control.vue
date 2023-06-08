@@ -5,22 +5,22 @@
         type="button"
         :class="`${classType}__btn ${classType}__btn_dec`"
         aria-label="Уменьшить количество товара"
-        @click="minusItem(id)">–</button>
+        @click="minusItem(id)">
+        –
+      </button>
       <output :class="`${classType}__number`">{{ countItem }}</output>
       <button
         type="button"
         :class="`${classType}__btn ${classType}__btn_inc`"
         aria-label="Увеличить количество товара"
-        @click="plusItem(id)">+</button>
+        @click="plusItem(id)">
+        +
+      </button>
     </div>
     <p :class="`${classType}__price`">{{ formattedPrice }}</p>
-    <ButtonCart
-      v-if="classType === 'card'"
-      class="card__add-cart"
-      :id="id"
-      :price="price"
-      :count="countItem"
-      v-text="'В корзину'" />
+    <ButtonCart v-if="classType === 'card'" :id="id" class="card__add-cart" :price="price" :count="countItem">
+      В корзину
+    </ButtonCart>
     <button
       v-else
       type="button"
@@ -41,11 +41,12 @@
   import ButtonCart from './ButtonCart.vue';
 
   export default {
-    name: 'Control',
+    name: 'ControlComponent',
+    components: { ButtonCart },
     props: {
-      classType: String,
-      id: String,
-      price: Number,
+      classType: { type: String, required: true },
+      id: { type: String, required: true },
+      price: { type: Number, required: true },
     },
     setup(props) {
       const store = useStore();
@@ -91,6 +92,5 @@
         removeItem,
       };
     },
-    components: { ButtonCart },
   };
 </script>

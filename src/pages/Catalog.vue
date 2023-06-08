@@ -13,34 +13,34 @@
           <div v-else class="goods__not-found"><b>Нет товаров по вашему запросу</b></div>
         </div>
         <button type="button" class="catalog__filter-btn" @click="showMobileFilter">Фильтры</button>
-        <Filter :categories="categories" v-model:is-show="mobileFilter" />
+        <FilterComponent v-model:is-show="mobileFilter" :categories="categories" />
         <div v-show="goodsItem.length" class="catalog__pagination pagination">
-          <Pagination :totalPages="totalPages" :currentPage="currentPage" @change-page="setCurrentPage" />
+          <Pagination :total-pages="totalPages" :current-page="currentPage" @change-page="setCurrentPage" />
         </div>
       </div>
     </div>
   </section>
-  <div class="overlay-filter" v-show="mobileFilter"></div>
+  <div v-show="mobileFilter" class="overlay-filter" />
 </template>
 
 <script>
   import Preloader from '@/components/Preloader.vue';
   import GoodsItem from '@/components/GoodsItem.vue';
-  import Filter from '@/components/Filter.vue';
+  import FilterComponent from '@/components/Filter.vue';
   import Pagination from '@/components/Pagination.vue';
   import { computed, onMounted, watch, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useStore } from 'vuex';
 
   export default {
-    name: 'Catalog',
+    name: 'CatalogPage',
     components: {
       Preloader,
       GoodsItem,
-      Filter,
+      FilterComponent,
       Pagination,
     },
-
+    emits: ['vnode-unmounted'],
     setup() {
       const store = useStore();
       const status = computed(() => store.state.goods.status);
@@ -102,7 +102,6 @@
         showMobileFilter,
       };
     },
-    emits: ['vnode-unmounted'],
   };
 </script>
 

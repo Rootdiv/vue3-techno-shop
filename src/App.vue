@@ -1,18 +1,18 @@
 <template>
-  <Header />
+  <HeaderComponent />
   <div class="main">
     <RouterView />
   </div>
-  <Footer />
+  <FooterComponent />
 </template>
 
 <script>
-  import Header from '@/components/Header.vue';
-  import Footer from '@/components/Footer.vue';
+  import HeaderComponent from '@/components/Header.vue';
+  import FooterComponent from '@/components/Footer.vue';
   export default {
     components: {
-      Header,
-      Footer,
+      HeaderComponent,
+      FooterComponent,
     },
   };
 </script>

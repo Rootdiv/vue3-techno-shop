@@ -1,7 +1,7 @@
 <template>
   <div class="overlay" :class="{ overlay_open: statusSend }" @click="closeModal">
     <div class="modal" :class="{ modal_open: statusSend }">
-      <div class="confirm" v-show="statusSend === 'confirm'">
+      <div v-show="statusSend === 'confirm'" class="confirm">
         <div class="confirm__title">Ваша заявка успешно отправлена</div>
         <div class="confirm__message">
           <b>Наши менеджеры свяжутся с вами в течении 3-х рабочих дней</b>
@@ -31,7 +31,8 @@
   import { ref, watch } from 'vue';
   export default {
     name: 'SendModal',
-    props: { sended: String },
+    props: { sended: { type: String, required: true } },
+    emits: ['update:sended'],
     setup(props, { emit }) {
       const statusSend = ref('');
 
@@ -46,6 +47,5 @@
 
       return { statusSend, closeModal };
     },
-    emits: ['update:sended'],
   };
 </script>

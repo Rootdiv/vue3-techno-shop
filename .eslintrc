@@ -9,6 +9,7 @@
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
+  "plugins": ["vue"],
   "rules": {
     "indent": [
       "error",
@@ -166,6 +167,19 @@
     "prefer-spread": ["error"],
     "rest-spread-spacing": ["error", "never"],
     "template-curly-spacing": ["error", "never"],
-    "vue/script-indent": "2"
-  }
+    "vue/singleline-html-element-content-newline": ["off"],
+    "vue/max-attributes-per-line": ["off"],
+    "vue/multi-word-component-names": ["error"],
+    "vue/html-self-closing": ["off"],
+    "vue/html-closing-bracket-newline": ["off"]
+  },
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "rules": {
+        "indent": "off",
+        "arrow-parens": ["error", "always"]
+      }
+    }
+  ]
 }

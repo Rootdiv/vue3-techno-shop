@@ -7,17 +7,17 @@
           <legend class="filter__field-title">Цена</legend>
           <div class="filter__flex">
             <label>
-              <input type="number" v-model="minPrice" placeholder="от" class="filter__input" />
+              <input v-model="minPrice" type="number" placeholder="от" class="filter__input" />
             </label>
             <label>
-              <input type="number" v-model="maxPrice" placeholder="до" class="filter__input" />
+              <input v-model="maxPrice" type="number" placeholder="до" class="filter__input" />
             </label>
           </div>
         </fieldset>
         <fieldset class="filter__field">
           <legend class="filter__field-title">Категория</legend>
           <label class="filter__label-select">
-            <select v-model="category" class="filter__input filter__input_select" id="category">
+            <select id="category" v-model="category" class="filter__input filter__input_select">
               <option value="" selected>Все категории</option>
               <option v-for="(label, value, index) in categories" :key="index" :value="value">{{ label }}</option>
             </select>
@@ -27,10 +27,10 @@
           <legend class="filter__field-title">Диагональ</legend>
           <div class="filter__flex">
             <label>
-              <input type="number" v-model="minDisplay" placeholder="от" class="filter__input" />
+              <input v-model="minDisplay" type="number" placeholder="от" class="filter__input" />
             </label>
             <label>
-              <input type="number" v-model="maxDisplay" placeholder="до" class="filter__input" />
+              <input v-model="maxDisplay" type="number" placeholder="до" class="filter__input" />
             </label>
           </div>
         </fieldset>
@@ -38,26 +38,26 @@
           <legend class="filter__field-title">Цвет</legend>
           <div class="filter__flex filter__flex_column">
             <label class="custom-label">
-              <input type="checkbox" v-model="color" value="white" class="filter__checkbox custom-checkbox" />Белый
+              <input v-model="color" type="checkbox" value="white" class="filter__checkbox custom-checkbox" />Белый
             </label>
             <label class="custom-label">
-              <input type="checkbox" v-model="color" value="black" class="filter__checkbox custom-checkbox" />Черный
+              <input v-model="color" type="checkbox" value="black" class="filter__checkbox custom-checkbox" />Черный
             </label>
             <label class="custom-label">
               <input
-                type="checkbox"
                 v-model="color"
+                type="checkbox"
                 value="silver"
                 class="filter__checkbox custom-checkbox" />Серебристый
             </label>
             <label class="custom-label">
-              <input type="checkbox" v-model="color" value="red" class="filter__checkbox custom-checkbox" />Красный
+              <input v-model="color" type="checkbox" value="red" class="filter__checkbox custom-checkbox" />Красный
             </label>
             <label class="custom-label">
-              <input type="checkbox" v-model="color" value="green" class="filter__checkbox custom-checkbox" />Зеленый
+              <input v-model="color" type="checkbox" value="green" class="filter__checkbox custom-checkbox" />Зеленый
             </label>
             <label class="custom-label">
-              <input type="checkbox" v-model="color" value="gold" class="filter__checkbox custom-checkbox" />Золотой
+              <input v-model="color" type="checkbox" value="gold" class="filter__checkbox custom-checkbox" />Золотой
             </label>
           </div>
         </fieldset>
@@ -73,8 +73,9 @@
   import { useRouter, useRoute } from 'vue-router';
   import { useStore } from 'vuex';
   export default {
-    name: 'Filter',
-    props: { categories: Object, isShow: Boolean },
+    name: 'FilterComponent',
+    props: { categories: { type: Object, required: true }, isShow: Boolean },
+    emits: ['update:is-show'],
     setup(_, { emit }) {
       const hideMobileFilter = () => {
         emit('update:is-show', false);
@@ -185,6 +186,5 @@
         resetFilter,
       };
     },
-    emits: ['update:is-show'],
   };
 </script>

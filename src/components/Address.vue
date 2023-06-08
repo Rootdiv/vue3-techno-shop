@@ -3,18 +3,18 @@
     <h3 class="cart__title address__title">Адрес доставки</h3>
     <form class="address__form" @submit.prevent="saveAddress">
       <label class="address__label-select">
-        <select class="address__item address__item_select" v-model="city" @change="changeOption">
+        <select v-model="city" class="address__item address__item_select" @change="changeOption">
           <option value="" disabled selected>Город</option>
-          <option v-for="city of cities" :key="city.name" :value="city.value" v-text="city.name" />
+          <option v-for="cityItem of cities" :key="cityItem.name" :value="cityItem.value" v-text="cityItem.name" />
         </select>
       </label>
-      <label><input type="text" v-model.trim="street" class="address__item" placeholder="Улица, дом" /></label>
-      <label><input type="text" v-model.trim="flat" class="address__item" placeholder="Квартира" /></label>
-      <label><input type="text" v-model.trim="fullName" class="address__item" placeholder="ФИО" /></label>
-      <label><input type="text" v-model.trim="postcode" class="address__item" placeholder="Индекс" /></label>
+      <label><input v-model.trim="street" type="text" class="address__item" placeholder="Улица, дом" /></label>
+      <label><input v-model.trim="flat" type="text" class="address__item" placeholder="Квартира" /></label>
+      <label><input v-model.trim="fullName" type="text" class="address__item" placeholder="ФИО" /></label>
+      <label><input v-model.trim="postcode" type="text" class="address__item" placeholder="Индекс" /></label>
       <button :disabled="count === 0" class="address__item address__item_btn">Сохранить</button>
       <label class="address__label-save custom-label">
-        <input type="checkbox" v-model="save" class="address__save custom-checkbox" />
+        <input v-model="save" type="checkbox" class="address__save custom-checkbox" />
         Запомнить этот адрес
       </label>
     </form>
@@ -25,13 +25,14 @@
   import { onMounted, computed } from 'vue';
   import { useStore } from 'vuex';
   export default {
-    name: 'Address',
+    name: 'AddressComponent',
     props: {
       count: {
         type: Number,
         default: 0,
       },
     },
+    emits: ['city-value'],
     setup(_, { emit }) {
       const cities = [
         { value: 'Moscow', name: 'Москва' },
@@ -106,6 +107,5 @@
 
       return { cities, changeOption, city, street, flat, fullName, postcode, save, saveAddress };
     },
-    emits: ['city-value'],
   };
 </script>

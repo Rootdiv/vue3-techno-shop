@@ -1,5 +1,5 @@
 <template>
-  <button type="button" @click="addToCart()" :class="{ 'goods-item__to-card_remove': addedInCart }">
+  <button type="button" :class="{ 'goods-item__to-card_remove': addedInCart }" @click="addToCart()">
     <slot>{{ addedInCart ? 'В корзине' : 'В корзину' }}</slot>
   </button>
 </template>
@@ -9,8 +9,8 @@
   import { ref, onMounted } from 'vue';
   export default {
     props: {
-      id: String,
-      price: Number,
+      id: { type: String, required: true },
+      price: { type: Number, required: true },
       count: { type: Number, default: 1 },
     },
     setup(props) {
