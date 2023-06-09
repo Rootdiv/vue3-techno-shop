@@ -62,7 +62,7 @@
 
   import { API_URI } from '@/const';
   import { useStore } from 'vuex';
-  import { computed, onMounted, watch } from 'vue';
+  import { ref, computed, onMounted, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import { register } from 'swiper/element/bundle';
 
@@ -76,11 +76,14 @@
     },
     emits: ['vnode-unmounted'],
     setup() {
+      const cardId = ref('');
+
       const route = useRoute();
       const store = useStore();
       const status = computed(() => store.state.product.status);
       const cardItem = computed(() => store.state.product);
-      const cardId = route.params.id;
+
+      cardId.value = route.params.id;
 
       const breakpoints = {
         320: {
@@ -98,7 +101,7 @@
       };
 
       onMounted(() => {
-        store.dispatch('product/fetchProduct', cardId);
+        store.dispatch('product/fetchProduct', cardId.value);
       });
 
       //Обновляем данные на странице если выбран продукт из рекомендаций
@@ -106,6 +109,7 @@
         () => route.params.id,
         (newId) => {
           store.dispatch('product/fetchProduct', newId);
+          cardId.value = newId;
         },
       );
 
