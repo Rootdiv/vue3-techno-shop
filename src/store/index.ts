@@ -7,6 +7,18 @@ import { cartModule } from './cart/module';
 import { addressModule } from '@/store/address/module';
 import { RootState } from './types';
 import { InjectionKey } from 'vue';
+import VuexPersist from 'vuex-persist';
+
+const vuexLocal = new VuexPersist<RootState>({
+  key: 'vue3-techno-shop-cart',
+  storage: localStorage,
+  reducer: state => ({
+    cart: {
+      productsCountList: state.cart.productsCountList,
+      cartIdList: state.cart.cartIdList,
+    },
+  }),
+});
 
 export const store = createStore<RootState>({
   modules: {
@@ -17,6 +29,7 @@ export const store = createStore<RootState>({
     cart: cartModule,
     address: addressModule,
   },
+  plugins: [vuexLocal.plugin],
 });
 
 //объявляем ключ инъекции с помощью интерфейса InjectionKey из Vue
