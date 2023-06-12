@@ -51,7 +51,7 @@
       const route = useRoute();
       const router = useRouter();
 
-      const newParamsURL = <T extends Record<string, string> | string>(params: T) => {
+      const newParamsURL = (params: Record<string, string> | string) => {
         const paramsURL = new URLSearchParams(params).toString();
         store.dispatch('goods/fetchGoods', paramsURL);
       };
