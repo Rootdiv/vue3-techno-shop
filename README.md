@@ -11,3 +11,4 @@
 - Vue Router v4 (навигация)
 - Axios (отправка запроса на бэкенд)
 - Typescript
+- Vuex Persist (сохранение корзины в localStorage)
