@@ -24,7 +24,7 @@
   </ul>
 </template>
 
-<script>
+<script lang="ts">
   export default {
     name: 'PaginationComponent',
     inheritAttrs: false,
@@ -32,7 +32,7 @@
   };
 </script>
 
-<script setup>
+<script setup lang="ts">
   defineProps({ totalPages: { type: Number, required: true }, currentPage: { type: Number, required: true } });
   defineEmits(['change-page']);
 </script>

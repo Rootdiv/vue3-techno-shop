@@ -55,13 +55,13 @@
   <Recommended :id="cardId" :category="cardItem.category" />
 </template>
 
-<script>
+<script lang="ts">
   import Preloader from '@/components/Preloader.vue';
   import Recommended from '@/components/Recommended.vue';
   import Control from '@/components/Control.vue';
 
   import { API_URI } from '@/const';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
   import { ref, computed, onMounted, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import { register } from 'swiper/element/bundle';
@@ -83,7 +83,7 @@
       const status = computed(() => store.state.product.status);
       const cardItem = computed(() => store.state.product);
 
-      cardId.value = route.params.id;
+      cardId.value = String(route.params.id);
 
       const breakpoints = {
         320: {
@@ -109,7 +109,7 @@
         () => route.params.id,
         (newId) => {
           store.dispatch('product/fetchProduct', newId);
-          cardId.value = newId;
+          cardId.value = String(newId);
         },
       );
 

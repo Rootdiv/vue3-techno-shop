@@ -21,9 +21,9 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
   import { onMounted, computed } from 'vue';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
   export default {
     name: 'AddressComponent',
     props: {

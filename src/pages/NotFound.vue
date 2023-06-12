@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   const currentUrl = window.location;
   defineEmits(['vnode-unmounted']);
 </script>

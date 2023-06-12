@@ -68,10 +68,21 @@
   </aside>
 </template>
 
-<script>
+<script lang="ts">
   import { ref, onMounted, watch } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
+  import type { Ref } from 'vue';
+
+  type FilterType = {
+    minprice: string;
+    maxprice: string;
+    category: string;
+    mindisplay: string;
+    maxdisplay: string;
+    color: string;
+  };
+
   export default {
     name: 'FilterComponent',
     props: { categories: { type: Object, required: true }, isShow: Boolean },
@@ -90,8 +101,8 @@
       const category = ref('');
       const minDisplay = ref('');
       const maxDisplay = ref('');
-      const color = ref([]);
-      const filter = ref({});
+      const color = ref<string[]>([]);
+      const filter: Ref<FilterType> = ref({} as FilterType);
 
       const resetFilter = () => {
         minPrice.value = '';
@@ -100,39 +111,39 @@
         minDisplay.value = '';
         maxDisplay.value = '';
         color.value = [];
-        filter.value = {};
+        filter.value = {} as FilterType;
       };
 
       const filtered = () => {
-        if (minPrice.value && minPrice.value > 0) {
+        if (minPrice.value && +minPrice.value > 0) {
           filter.value.minprice = minPrice.value;
         } else {
-          delete filter.value.minprice;
+          Reflect.deleteProperty(filter.value, 'minprice');
         }
-        if (maxPrice.value && maxPrice.value > 0) {
+        if (maxPrice.value && +maxPrice.value > 0) {
           filter.value.maxprice = maxPrice.value;
         } else {
-          delete filter.value.maxprice;
+          Reflect.deleteProperty(filter.value, 'maxprice');
         }
         if (category.value !== '') {
           filter.value.category = category.value;
         } else {
-          delete filter.value.category;
+          Reflect.deleteProperty(filter.value, 'category');
         }
-        if (minDisplay.value && minDisplay.value > 0) {
+        if (minDisplay.value && +minDisplay.value > 0) {
           filter.value.mindisplay = minDisplay.value;
         } else {
-          delete filter.value.mindisplay;
+          Reflect.deleteProperty(filter.value, 'mindisplay');
         }
-        if (maxDisplay.value && maxDisplay.value > 0) {
+        if (maxDisplay.value && +maxDisplay.value > 0) {
           filter.value.maxdisplay = maxDisplay.value;
         } else {
-          delete filter.value.maxdisplay;
+          Reflect.deleteProperty(filter.value, 'maxdisplay');
         }
         if (color.value.length > 0) {
           filter.value.color = color.value.toString();
         } else {
-          delete filter.value.color;
+          Reflect.deleteProperty(filter.value, 'color');
         }
       };
 
@@ -154,12 +165,24 @@
 
       onMounted(() => {
         if (route.path === '/filter') {
-          minPrice.value = route.query.minprice || minPrice.value;
-          maxPrice.value = route.query.maxprice || maxPrice.value;
-          category.value = route.query.category || category.value;
-          minDisplay.value = route.query.mindisplay || minDisplay.value;
-          maxDisplay.value = route.query.maxdisplay || maxDisplay.value;
-          color.value = route.query.color ? route.query.color.split(',') : color.value;
+          if (route.query.minPrice && typeof route.query.minPrice === 'string') {
+            minPrice.value = route.query.minPrice;
+          }
+          if (route.query.maxPrice && typeof route.query.maxPrice === 'string') {
+            maxPrice.value = route.query.maxPrice;
+          }
+          if (route.query.category && typeof route.query.category === 'string') {
+            category.value = route.query.category;
+          }
+          if (route.query.minDisplay && typeof route.query.minDisplay === 'string') {
+            minDisplay.value = route.query.minDisplay;
+          }
+          if (route.query.maxDisplay && typeof route.query.maxDisplay === 'string') {
+            maxDisplay.value = route.query.maxDisplay;
+          }
+          if (route.query.color && typeof route.query.color === 'string') {
+            color.value = route.query.color.split(',');
+          }
           router.push({ query: route.query });
           //Запрос на сервер происходит в родительском компоненте
         }

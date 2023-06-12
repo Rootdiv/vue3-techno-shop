@@ -23,15 +23,16 @@
   </header>
 </template>
 
-<script>
+<script lang="ts">
   export default {
     name: 'HeaderComponent',
   };
 </script>
-<script setup>
+
+<script setup lang="ts">
   import { RouterLink } from 'vue-router';
   import Search from './Search.vue';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
   import { computed } from 'vue';
-  const totalCount = computed(() => useStore().getters['cart/cartTotalCount']);
+  const totalCount = computed<number>(() => useStore().getters['cart/cartTotalCount']);
 </script>

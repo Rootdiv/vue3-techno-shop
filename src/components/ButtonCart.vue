@@ -4,8 +4,8 @@
   </button>
 </template>
 
-<script>
-  import { useStore } from 'vuex';
+<script lang="ts">
+  import { useStore } from '@/store';
   import { ref, onMounted } from 'vue';
   export default {
     props: {

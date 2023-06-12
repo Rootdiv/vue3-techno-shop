@@ -19,11 +19,12 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
   import GoodsItem from '@/components/GoodsItem.vue';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
   import { computed, watch } from 'vue';
   import { register } from 'swiper/element/bundle';
+  import { Product } from '../store/types';
 
   register();
   export default {
@@ -37,7 +38,7 @@
       const store = useStore();
 
       const status = computed(() => store.state.recommended.status);
-      const goodsCategory = computed(() => store.getters['recommended/recommendItems'](props.id));
+      const goodsCategory = computed<Product[]>(() => store.getters['recommended/recommendItems'](props.id));
 
       const breakpoints = {
         520: {

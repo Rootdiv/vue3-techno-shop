@@ -43,9 +43,9 @@
   <SendModal v-model:sended="sended" />
 </template>
 
-<script>
+<script lang="ts">
   import { ref, watch, onMounted, computed } from 'vue';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
   import SendModal from './SendModal.vue';
 
   export default {

@@ -77,8 +77,8 @@
   </footer>
 </template>
 
-<script>
-  import { useStore } from 'vuex';
+<script lang="ts">
+  import { useStore } from '@/store';
   import { computed, onMounted, ref } from 'vue';
   import { RouterLink } from 'vue-router';
 

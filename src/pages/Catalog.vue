@@ -23,14 +23,14 @@
   <div v-show="mobileFilter" class="overlay-filter" />
 </template>
 
-<script>
+<script lang="ts">
   import Preloader from '@/components/Preloader.vue';
   import GoodsItem from '@/components/GoodsItem.vue';
   import FilterComponent from '@/components/Filter.vue';
   import Pagination from '@/components/Pagination.vue';
   import { computed, onMounted, watch, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
 
   export default {
     name: 'CatalogPage',
@@ -51,12 +51,13 @@
       const route = useRoute();
       const router = useRouter();
 
-      const newParamsURL = (param) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const newParamsURL = (param: any) => {
         const paramsURL = new URLSearchParams(param).toString();
         store.dispatch('goods/fetchGoods', paramsURL);
       };
 
-      const setCurrentPage = (page) => {
+      const setCurrentPage = (page: number) => {
         const query = { ...route.query, page };
         router.push({ path: route.path, query });
         newParamsURL(query);
@@ -69,7 +70,7 @@
       };
 
       onMounted(() => {
-        store.commit('goods/setPage', +route.query.page || 1);
+        store.commit('goods/setPage', Number(route.query.page || 1));
         store.dispatch('categories/fetchCategory');
         newParamsURL(route.query);
       });

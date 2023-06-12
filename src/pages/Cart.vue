@@ -22,10 +22,10 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
   import CartTotal from '@/components/CartTotal.vue';
   import AddressComponent from '@/components/Address.vue';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
   import { computed, onMounted, ref } from 'vue';
   import { API_URI } from '@/const';
   import Control from '@/components/Control.vue';
@@ -41,10 +41,10 @@
       const store = useStore();
       const selectedCity = ref('');
       const cartProducts = computed(() => store.state.cart.cartProducts);
-      const cartTotalPrice = computed(() => store.getters['cart/cartTotalPrice']);
-      const cartTotalCount = computed(() => store.getters['cart/cartTotalCount']);
+      const cartTotalPrice = computed<number>(() => store.getters['cart/cartTotalPrice']);
+      const cartTotalCount = computed<number>(() => store.getters['cart/cartTotalCount']);
 
-      const setSelectedCity = (city) => {
+      const setSelectedCity = (city: string) => {
         selectedCity.value = city;
       };
 

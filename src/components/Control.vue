@@ -34,8 +34,8 @@
   </div>
 </template>
 
-<script>
-  import { useStore } from 'vuex';
+<script lang="ts">
+  import { useStore } from '@/store';
   import { formatPrice } from '@/const';
   import { ref, onMounted, watch } from 'vue';
   import ButtonCart from './ButtonCart.vue';
@@ -54,7 +54,7 @@
       const formattedPrice = ref('');
       const countItem = ref(1);
 
-      const minusItem = (id) => {
+      const minusItem = (id: string) => {
         if (countItem.value !== 1 && countItem.value > 0) {
           countItem.value--;
         }
@@ -63,14 +63,14 @@
         }
       };
 
-      const plusItem = (id) => {
+      const plusItem = (id: string) => {
         countItem.value++;
         if (isAddedCart.value) {
           store.commit('cart/incrementItemCount', id);
         }
       };
 
-      const removeItem = (id) => {
+      const removeItem = (id: string) => {
         store.dispatch('cart/removeItem', id);
       };
 

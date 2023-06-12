@@ -16,11 +16,12 @@
   </article>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { API_URI, formatPrice } from '@/const';
   import ButtonCart from './ButtonCart.vue';
   import { RouterLink } from 'vue-router';
   import { toRefs } from 'vue';
-  const props = defineProps({ goods: { type: Object, required: true } });
+  import { Product } from '@/store/types';
+  const props = defineProps<{ goods: Product }>();
   const { goods } = toRefs(props);
 </script>

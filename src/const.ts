@@ -1,6 +1,6 @@
 export const API_URI = `${location.protocol}//${location.hostname}:3024`;
 
-export const formatPrice = price =>
+export const formatPrice = (price: number) =>
   new Intl.NumberFormat('ru-RU', {
     style: 'currency',
     currency: 'RUB',

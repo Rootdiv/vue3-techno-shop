@@ -9,10 +9,10 @@
   </form>
 </template>
 
-<script>
+<script lang="ts">
   import { ref, watch } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
-  import { useStore } from 'vuex';
+  import { useStore } from '@/store';
 
   export default {
     name: 'SearchComponent',
