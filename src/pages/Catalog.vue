@@ -51,14 +51,13 @@
       const route = useRoute();
       const router = useRouter();
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const newParamsURL = (param: any) => {
-        const paramsURL = new URLSearchParams(param).toString();
+      const newParamsURL = <T extends Record<string, string> | string>(params: T) => {
+        const paramsURL = new URLSearchParams(params).toString();
         store.dispatch('goods/fetchGoods', paramsURL);
       };
 
       const setCurrentPage = (page: number) => {
-        const query = { ...route.query, page };
+        const query = { ...route.query, page: String(page) };
         router.push({ path: route.path, query });
         newParamsURL(query);
       };
@@ -72,7 +71,11 @@
       onMounted(() => {
         store.commit('goods/setPage', Number(route.query.page || 1));
         store.dispatch('categories/fetchCategory');
-        newParamsURL(route.query);
+        if (typeof route.query === 'string') {
+          newParamsURL(route.query);
+        } else {
+          newParamsURL('');
+        }
       });
 
       watch(
