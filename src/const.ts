@@ -1,4 +1,4 @@
-export const API_URI = `${location.protocol}//${location.hostname}:3024`;
+export const API_URI = import.meta.env.DEV ? 'http://localhost:3024' : 'https://api.rootdiv.ru/ts';
 
 export const formatPrice = (price: number) =>
   new Intl.NumberFormat('ru-RU', {
