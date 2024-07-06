@@ -1,7 +1,7 @@
 <template>
-  <section class="card">
+  <section :class="['card', { ['card_error']: status === 'error' }]">
     <Preloader v-if="status === 'loading'" />
-    <div v-else class="container">
+    <div v-else-if="status === 'success'" class="container">
       <div class="card__details">
         <div class="card__gallery">
           <div class="swiper card__image">
@@ -12,7 +12,10 @@
                 slideThumbActiveClass: 'card__thumb-btn_active',
               }"
               thumbs-swiper=".swiper-slide-thumb">
-              <swiper-slide v-for="(image, index) in cardItem.images.large" :key="index" class="swiper-slide">
+              <swiper-slide
+                v-for="(image, index) in cardItem.images.large"
+                :key="index"
+                class="swiper-slide">
                 <img :src="`${API_URI}/${image}`" alt="" />
               </swiper-slide>
             </swiper-container>
@@ -25,7 +28,10 @@
                 draggable: true,
               }"
               class="swiper-slide-thumb">
-              <swiper-slide v-for="(image, index) in cardItem.images.small" :key="index" class="swiper-slide">
+              <swiper-slide
+                v-for="(image, index) in cardItem.images.small"
+                :key="index"
+                class="swiper-slide">
                 <button class="card__thumb-btn">
                   <img :src="`${API_URI}/${image}`" alt="" />
                 </button>
@@ -38,7 +44,10 @@
           <p class="card__vendor-code">Артикул: {{ cardItem.id }}</p>
           <Control :id="cardItem.id" :class-type="'card'" :price="cardItem.price" />
           <ul class="card__params-list">
-            <li v-for="(param, key, index) in cardItem.characteristic" :key="index" class="card__params-item">
+            <li
+              v-for="(param, key, index) in cardItem.characteristic"
+              :key="index"
+              class="card__params-item">
               <span>{{ key }}:</span><span>{{ param }}</span>
             </li>
           </ul>
@@ -51,8 +60,9 @@
         </div>
       </div>
     </div>
+    <p v-else class="card__error"><b>Товар не найден</b></p>
   </section>
-  <Recommended :id="cardId" :category="cardItem.category" />
+  <Recommended v-if="status !== 'error'" :id="cardId" :category="cardItem.category" />
 </template>
 
 <script lang="ts">

@@ -6,9 +6,8 @@ import NotFound from '@/pages/NotFound.vue';
 
 const routes = [
   {
-    name: 'catalog',
-    //Параметр category может отсутствовать
     path: '/',
+    name: 'catalog',
     alias: ['/filter', '/search'],
     component: Catalog,
   },
