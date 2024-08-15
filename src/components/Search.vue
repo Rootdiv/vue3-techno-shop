@@ -12,32 +12,31 @@
 <script lang="ts">
   import { ref, watch } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
-  import { useStore } from '@/store';
 
   export default {
     name: 'SearchComponent',
     setup() {
       const router = useRouter();
       const route = useRoute();
-      const store = useStore();
 
       const search = ref('');
 
       const searching = () => {
         if (search.value) {
           router.push({
-            query: { search: search.value },
+            path: 'search',
+            query: { q: search.value },
           });
-          store.commit('goods/setPage', 1);
-          const paramsURL = new URLSearchParams({ search: search.value }).toString();
-          store.dispatch('goods/fetchGoods', paramsURL);
         }
       };
 
       watch(
-        () => route.query,
+        () => [route.path, route.query],
         () => {
-          if (!route.query.search) {
+          if (route.path === '/search') {
+            //Приводим тип "LocationQueryValue" к типу "string".
+            search.value = String(route.query.q);
+          } else {
             search.value = '';
           }
         },

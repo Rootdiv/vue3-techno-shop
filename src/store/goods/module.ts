@@ -26,12 +26,25 @@ const mutations: MutationTree<IGoodsState> = {
   },
 };
 
+const formatQueryString = (params: URLSearchParams) => {
+  if (!params || Object.keys(params).length === 0) {
+    return '';
+  }
+
+  const searchParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    searchParams.append(key, value);
+  });
+
+  return `?${searchParams.toString()}`;
+};
+
 const actions: ActionTree<IGoodsState, RootState> = {
-  fetchGoods({ commit }, param) {
-    const queryParam = param ? `?${param}` : '';
+  fetchGoods({ commit }, params) {
     commit('setStatus', 'loading');
     axios
-      .get<Goods>(`${API_URI}/api/goods${queryParam}`)
+      .get<Goods>(`${API_URI}/api/goods${formatQueryString(params)}`)
       .then(response => {
         commit('setPage', response.data.page);
         commit('setPages', response.data.pages);

@@ -15,7 +15,10 @@
         <button type="button" class="catalog__filter-btn" @click="showMobileFilter">Фильтры</button>
         <FilterComponent v-model:is-show="mobileFilter" :categories="categories" />
         <div v-show="goodsItem.length" class="catalog__pagination pagination">
-          <Pagination :total-pages="totalPages" :current-page="currentPage" @change-page="setCurrentPage" />
+          <Pagination
+            :total-pages="totalPages"
+            :current-page="currentPage"
+            @change-page="setCurrentPage" />
         </div>
       </div>
     </div>
@@ -29,7 +32,7 @@
   import FilterComponent from '@/components/Filter.vue';
   import Pagination from '@/components/Pagination.vue';
   import { computed, onMounted, watch, ref } from 'vue';
-  import { useRoute, useRouter } from 'vue-router';
+  import { LocationQuery, useRoute, useRouter } from 'vue-router';
   import { useStore } from '@/store';
 
   export default {
@@ -51,9 +54,8 @@
       const route = useRoute();
       const router = useRouter();
 
-      const newParamsURL = (params: Record<string, string> | string) => {
-        const paramsURL = new URLSearchParams(params).toString();
-        store.dispatch('goods/fetchGoods', paramsURL);
+      const newParamsURL = (params: LocationQuery) => {
+        store.dispatch('goods/fetchGoods', params);
       };
 
       const setCurrentPage = (page: number) => {
@@ -71,27 +73,13 @@
       onMounted(() => {
         store.commit('goods/setPage', Number(route.query.page || 1));
         store.dispatch('categories/fetchCategory');
-        if (typeof route.query === 'string') {
-          newParamsURL(route.query);
-        } else {
-          newParamsURL('');
-        }
+        newParamsURL(route.query);
       });
 
       watch(
-        () => [route.path, route.query],
+        () => route.query,
         () => {
-          if (route.path !== '/filter') {
-            if (route.query.category) {
-              store.commit('goods/setPage', 1);
-              const category = `category=${route.query.category}`;
-              store.dispatch('goods/fetchGoods', category);
-            } else if (!route.query?.page && !route.query?.category && !route.query?.search) {
-              //Условие для корректного перехода по страницам и на главную страницу
-              store.commit('goods/setPage', 1);
-              store.dispatch('goods/fetchGoods');
-            }
-          }
+          store.dispatch('goods/fetchGoods', route.query);
         },
       );
 
