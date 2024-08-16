@@ -38,7 +38,9 @@
       const store = useStore();
 
       const status = computed(() => store.state.recommended.status);
-      const goodsCategory = computed<Product[]>(() => store.getters['recommended/recommendItems'](props.id));
+      const goodsCategory = computed<Product[]>(() =>
+        store.getters['recommended/recommendItems'](props.id),
+      );
 
       const breakpoints = {
         520: {
@@ -73,3 +75,34 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .recommended {
+    &__title {
+      font-weight: 700;
+      font-size: 44px;
+      line-height: 54px;
+      margin-bottom: 10px;
+
+      @include laptop {
+        font-size: 30px;
+        line-height: 37px;
+      }
+
+      @include mobile {
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+
+    &__carousel {
+
+      //Автоматическая высота слайдов
+      //Точки пагинации под слайдер
+      .swiper-slide {
+        height: unset;
+        margin-bottom: 37px;
+      }
+    }
+  }
+</style>

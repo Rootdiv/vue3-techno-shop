@@ -11,3 +11,20 @@
     customOptions: {},
   };
 </script>
+
+<style lang="scss" scoped>
+  .preloader {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    background-color: $color-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      transform: rotate(0);
+      animation: rotation 1s infinite linear;
+    }
+  }
+</style>

@@ -19,7 +19,9 @@
           <label class="filter__label-select">
             <select id="category" v-model="category" class="filter__input filter__input_select">
               <option value="" selected>Все категории</option>
-              <option v-for="(label, value, index) in categories" :key="index" :value="value">{{ label }}</option>
+              <option v-for="(label, value, index) in categories" :key="index" :value="value">
+                {{ label }}
+              </option>
             </select>
           </label>
         </fieldset>
@@ -38,10 +40,18 @@
           <legend class="filter__field-title">Цвет</legend>
           <div class="filter__flex filter__flex_column">
             <label class="custom-label">
-              <input v-model="color" type="checkbox" value="white" class="filter__checkbox custom-checkbox" />Белый
+              <input
+                v-model="color"
+                type="checkbox"
+                value="white"
+                class="filter__checkbox custom-checkbox" />Белый
             </label>
             <label class="custom-label">
-              <input v-model="color" type="checkbox" value="black" class="filter__checkbox custom-checkbox" />Черный
+              <input
+                v-model="color"
+                type="checkbox"
+                value="black"
+                class="filter__checkbox custom-checkbox" />Черный
             </label>
             <label class="custom-label">
               <input
@@ -51,13 +61,25 @@
                 class="filter__checkbox custom-checkbox" />Серебристый
             </label>
             <label class="custom-label">
-              <input v-model="color" type="checkbox" value="red" class="filter__checkbox custom-checkbox" />Красный
+              <input
+                v-model="color"
+                type="checkbox"
+                value="red"
+                class="filter__checkbox custom-checkbox" />Красный
             </label>
             <label class="custom-label">
-              <input v-model="color" type="checkbox" value="green" class="filter__checkbox custom-checkbox" />Зеленый
+              <input
+                v-model="color"
+                type="checkbox"
+                value="green"
+                class="filter__checkbox custom-checkbox" />Зеленый
             </label>
             <label class="custom-label">
-              <input v-model="color" type="checkbox" value="gold" class="filter__checkbox custom-checkbox" />Золотой
+              <input
+                v-model="color"
+                type="checkbox"
+                value="gold"
+                class="filter__checkbox custom-checkbox" />Золотой
             </label>
           </div>
         </fieldset>
@@ -211,3 +233,290 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .filter {
+    padding-top: 78px;
+    max-width: 340px;
+
+    @include tablet {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: $color-secondary;
+      z-index: 150;
+      padding: 14px 20px 26px;
+      max-width: 350px;
+
+      &_show {
+        display: block;
+      }
+    }
+
+    @include mobile {
+      max-width: 320px;
+    }
+
+    &__form {
+      position: relative;
+    }
+
+    &__title {
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 32px;
+      margin-bottom: 30px;
+
+      @include tablet {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        font-size: 22px;
+        line-height: 27px;
+        justify-content: flex-end;
+
+        &::after {
+          content: '';
+          transform: rotate(270deg);
+          display: block;
+          width: 18px;
+          height: 18px;
+          background-image: url('@/assets/img/arrow.svg');
+        }
+
+        &_show {
+          cursor: pointer;
+        }
+      }
+
+      @include mobile {
+        font-size: 14px;
+        line-height: 17px;
+      }
+    }
+
+    &__fields-list {
+      margin-bottom: 40px;
+
+      @include mobile {
+        margin-bottom: 30px;
+      }
+    }
+
+    &__field {
+      margin-bottom: 30px;
+
+      @include mobile {
+        margin-bottom: 15px;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &-title {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        margin-bottom: 10px;
+
+        @include mobile {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    &__label-select {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        content: '';
+        right: 33px;
+        top: 50%;
+        transform: translateY(calc(-50% - 3px)) rotate(45deg);
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: transparent $color-primary $color-primary transparent;
+      }
+    }
+
+    &__flex {
+      display: flex;
+      gap: 10px;
+
+      @include laptop {
+        gap: 20px;
+      }
+
+      @include tablet {
+        gap: 10px;
+      }
+
+      &_column {
+        flex-direction: column;
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+
+    &__input {
+      width: 100%;
+      font-size: 16px;
+      line-height: 20px;
+      padding: 0 10px;
+      height: 38px;
+      outline: none;
+      border: 1px solid $color-primary;
+
+      &:focus {
+        content: '';
+        border: 1px solid $color-main;
+      }
+
+      @include mobile {
+        font-size: 14px;
+        line-height: 17px;
+        height: 35px;
+      }
+
+      &_select {
+        appearance: none;
+        width: 100%;
+        color: $color-grey;
+        background-color: #fff;
+        border: 1px solid $color-primary;
+      }
+
+      &::placeholder {
+        color: $color-grey;
+      }
+    }
+
+    &__checkbox {
+      margin-right: 25px;
+    }
+
+    &__apply {
+      outline: none;
+      display: block;
+      margin: 0 auto;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      background-color: $color-primary;
+      color: $color-secondary;
+      padding: 8px 20px;
+      border: 1px solid $color-primary;
+      transition: background-color 0.25s ease-in-out, border 0.25s ease-in-out;
+
+      @include tablet {
+        margin-bottom: 15px;
+      }
+
+      @include mobile {
+        font-size: 12px;
+        line-height: 15px;
+      }
+
+      &:hover {
+        background-color: $color-main;
+        border: 1px solid $color-main;
+      }
+
+      &:focus {
+        background-color: $color-main-sub;
+        border: 1px solid $color-main-sub;
+      }
+
+      &:disabled {
+        cursor: default;
+        background-color: $color-grey-light;
+        border: 1px solid $color-grey-light;
+      }
+    }
+
+    &__reset {
+      position: absolute;
+      top: 5px;
+      right: 4px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: $color-grey;
+      background-color: transparent;
+      border: none;
+      transition: color 0.25s ease-in-out;
+
+      @include tablet {
+        position: static;
+        display: block;
+        margin: 0 auto;
+      }
+
+      @include mobile {
+        font-size: 12px;
+        line-height: 15px;
+      }
+
+      &:hover {
+        color: $color-main;
+      }
+    }
+  }
+
+  .custom {
+    &-label {
+      cursor: pointer;
+      position: relative;
+    }
+
+    &-checkbox {
+      appearance: none;
+      outline: none;
+      z-index: -1;
+      width: 0;
+      height: 0;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        left: 0;
+        top: 1px;
+        border: 1px solid $color-primary;
+
+        @include mobile {
+          top: 0;
+        }
+      }
+
+      &:focus::before {
+        border: 1px solid $color-main;
+      }
+
+      &:checked::after {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 2px;
+        width: 16px;
+        height: 6px;
+        border-left: 2px solid $color-primary;
+        border-bottom: 2px solid $color-primary;
+        transform: rotate(-45deg);
+
+        @include mobile {
+          top: 1px;
+        }
+      }
+    }
+  }
+</style>

@@ -5,7 +5,11 @@
       <label class="address__label-select">
         <select v-model="city" class="address__item address__item_select" @change="changeOption">
           <option value="" disabled selected>Город</option>
-          <option v-for="cityItem of cities" :key="cityItem.name" :value="cityItem.value" v-text="cityItem.name" />
+          <option
+            v-for="cityItem of cities"
+            :key="cityItem.name"
+            :value="cityItem.value"
+            v-text="cityItem.name" />
         </select>
       </label>
       <label><input v-model.trim="street" type="text" class="address__item" placeholder="Улица, дом" /></label>
@@ -109,3 +113,128 @@
     },
   };
 </script>
+
+<style lang="scss">
+  .address {
+    margin-bottom: 110px;
+
+    @include desktop {
+      max-width: 700px;
+    }
+
+    @include laptop {
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    &__title {
+      margin-bottom: 30px;
+
+      @include mobile {
+        margin-bottom: 20px;
+      }
+    }
+
+    &__form {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      color: $color-grey;
+
+      @include desktop {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      @include tablet {
+        gap: 10px 20px;
+      }
+
+      @include mobile {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    &__label-select {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        content: '';
+        right: 43px;
+        top: 50%;
+        transform: translateY(calc(-50% - 3px)) rotate(45deg);
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: transparent $color-primary $color-primary transparent;
+      }
+    }
+
+    &__item {
+      outline: none;
+      width: 100%;
+      height: 50px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+      padding: 0 10px;
+      color: $color-primary;
+      border: 1px solid $color-primary;
+
+      &:focus {
+        border: 1px solid $color-main;
+      }
+
+      ::placeholder {
+        color: $color-grey;
+      }
+
+      &_select {
+        appearance: none;
+        color: $color-grey;
+        background-color: #fff;
+
+        option {
+          color: $color-primary;
+        }
+      }
+
+      &_btn {
+        outline: none;
+        font-weight: 500;
+        color: $color-secondary;
+        background-color: $color-primary;
+        transition: background-color 0.25s ease-in-out, border 0.25s ease-in-out;
+
+        &:hover {
+          background-color: $color-main;
+          border: 1px solid $color-main;
+        }
+
+        &:focus {
+          background-color: $color-main-sub;
+          border: 1px solid $color-main-sub;
+        }
+
+        &:disabled {
+          cursor: default;
+          background-color: $color-grey-light;
+          border: 1px solid $color-grey-light;
+        }
+      }
+    }
+
+    &__label-save {
+      grid-column: -2;
+      display: flex;
+      gap: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      padding-top: 2px;
+    }
+  }
+</style>

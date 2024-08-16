@@ -46,3 +46,60 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .search {
+    width: 100%;
+    max-width: 818px;
+    height: 50px;
+    position: relative;
+
+    @include mobile {
+      height: 44px;
+    }
+
+    &__input {
+      width: 100%;
+      height: 100%;
+      outline: none;
+      border: 1px solid $color-grey-light;
+      border-radius: 16px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      padding-left: 24px;
+      padding-right: 54px;
+
+      &::-webkit-search-cancel-button {
+        display: none;
+      }
+
+      &:focus {
+        border: 1px solid $color-main;
+      }
+
+      @include mobile {
+        padding-right: 44px;
+      }
+    }
+
+    &__button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 26px;
+      line-height: 0;
+      border: 0;
+      background-color: transparent;
+      transition: color 0.25s ease-in-out;
+
+      &:hover {
+        color: $color-main;
+      }
+
+      @include mobile {
+        right: 15px;
+      }
+    }
+  }
+</style>

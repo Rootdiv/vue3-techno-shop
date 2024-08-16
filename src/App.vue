@@ -16,3 +16,20 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .main {
+    position: relative;
+    padding-top: 44px;
+    padding-bottom: 120px;
+
+    @include tablet {
+      padding-top: 24px;
+      padding-bottom: 80px;
+    }
+
+    @include mobile {
+      padding-top: 35px;
+    }
+  }
+</style>

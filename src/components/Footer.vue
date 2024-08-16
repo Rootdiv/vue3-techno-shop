@@ -71,7 +71,8 @@
       <div class="footer__copyright-brand">&copy; TechnoSHOP, 2022</div>
       <div class="footer__copyright-design design">
         <div class="design__name">Design by Anastasia Ilina</div>
-        Tg: <a href="https://t.me/Mrshmallowww" target="_blank" class="design__link">&#64;Mrshmallowww</a>
+        Tg:
+        <a href="https://t.me/Mrshmallowww" target="_blank" class="design__link">&#64;Mrshmallowww</a>
       </div>
     </div>
   </footer>
@@ -112,3 +113,257 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .footer {
+    background-color: $color-primary;
+    color: $color-secondary;
+    padding: 80px 0;
+
+    @include laptop {
+      padding: 50px 0;
+    }
+
+    @include tablet {
+      padding: 40px 0;
+    }
+
+    @include mobile {
+      padding: 25px 0;
+    }
+
+    &__container {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr 1fr;
+      gap: 30px;
+      grid-template-areas: 'logo catalog customer contacts';
+
+      @include laptop {
+        grid-template-columns: 395px 235px 280px;
+        grid-template-areas:
+          'logo . .'
+          'catalog customer contacts';
+      }
+
+      @include tablet {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          'logo .'
+          'catalog contacts'
+          'catalog customer';
+      }
+
+      @include mobile {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          'logo'
+          'catalog'
+          'customer'
+          'contacts';
+        gap: 15px;
+      }
+    }
+
+    &__logo-link {
+      place-self: start;
+      grid-area: logo;
+
+      @include mobile {
+        margin-bottom: 15px;
+      }
+    }
+
+    &__logo {
+      width: 146px;
+    }
+
+    &__column-title {
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 1.3;
+      margin-bottom: 40px;
+
+      @include mobile {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 20px;
+        margin-bottom: 0;
+        cursor: pointer;
+
+        &::after {
+          content: '';
+          display: block;
+          width: 18px;
+          height: 18px;
+          background-image: url('@/assets/img/arrow-footer.svg');
+          background-repeat: no-repeat;
+          background-position: center 1px;
+        }
+
+        &_open {
+          &::after {
+            background-position: center -2px;
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+
+    &__list {
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.5;
+
+      @include mobile {
+        font-size: 14px;
+        line-height: 17px;
+        display: none;
+        padding-top: 15px;
+        padding-bottom: 10px;
+
+        &_show {
+          display: block;
+        }
+      }
+
+      &_double {
+        column-count: 2;
+
+        @include laptop {
+          column-count: auto;
+        }
+      }
+
+      &_contacts {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.3;
+        margin-bottom: 36px;
+
+        @include mobile {
+          font-size: 13px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+
+    &__item {
+      margin-bottom: 15px;
+
+      &_contact {
+        margin-bottom: 21px;
+
+        @include mobile {
+          margin-bottom: 15px;
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__link {
+      transition: color 0.25s ease-in-out;
+
+      &:hover {
+        color: $color-main;
+      }
+    }
+
+    &__catalog {
+      grid-area: catalog;
+    }
+
+    &__customer {
+      grid-area: customer;
+
+      @include mobile {
+        margin-bottom: 10px;
+      }
+    }
+
+    &__contacts {
+      grid-area: contacts;
+
+      @include mobile {
+        margin-bottom: 25px;
+
+        .footer__column-title {
+          cursor: default;
+
+          &::after {
+            display: none;
+          }
+        }
+
+        .footer__list {
+          display: block;
+        }
+      }
+    }
+
+    &__copyright {
+      &-brand {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.3;
+        grid-column: 1;
+
+        @include mobile {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
+
+  .social {
+    display: flex;
+    gap: 20px;
+
+    &__link {
+      transition: color 0.25s ease-in-out;
+
+      &:hover {
+        color: $color-main;
+      }
+    }
+  }
+
+  .design {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.3;
+    grid-column: 4;
+
+    @include laptop {
+      grid-column: 3;
+    }
+
+    @include tablet {
+      grid-column: 2;
+    }
+
+    @include tablet {
+      grid-column: 1;
+    }
+
+    @include mobile {
+      font-size: 14px;
+    }
+
+    &__name {
+      margin-bottom: 10px;
+    }
+
+    &__link {
+      transition: color 0.25s ease-in-out;
+
+      &:hover {
+        color: $color-main;
+      }
+    }
+  }
+</style>
